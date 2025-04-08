@@ -1,0 +1,61 @@
+CREATE DATABASE IF NOT EXISTS db_anbima;
+
+CREATE TABLE IF NOT EXISTS tb_usuario (
+	id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR (255) NOT NULL,
+    dt_nascimento DATE NOT NULL,
+    sexo VARCHAR (10) NOT NULL,
+    telefone VARCHAR (15) NOT NULL,
+    senha VARCHAR (255) NOT NULL,
+	email VARCHAR (255) UNIQUE NOT NULL,
+	estado CHAR (2) NOT NULL,
+	cep CHAR (8) NOT NULL,
+	rua VARCHAR (255) NOT NULL,
+    bairro VARCHAR (255) NOT NULL,
+    cidade VARCHAR (255) NOT NULL,
+	cpf CHAR(11) NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS tb_curso (
+	id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR (255) NOT NULL,
+	descricao VARCHAR (255) NOT NULL,
+    duracao TIME NOT NULL,
+    id_usuario INTEGER NOT NULL,
+CONSTRAINT fk_usuario_id FOREIGN KEY (id_usuario) 
+REFERENCES tb_usuario(id)
+);
+
+ALTER TABLE tb_curso  
+ADD COLUMN duracao TIME NOT NULL;
+
+CREATE TABLE IF NOT EXISTS tb_modulo (
+	id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR (255) NOT NULL,
+	descricao VARCHAR (255) NOT NULL,
+    id_curso INTEGER NOT NULL,
+CONSTRAINT fk_curso_id FOREIGN KEY (id_curso) 
+REFERENCES tb_curso(id)
+);
+
+CREATE TABLE IF NOT EXISTS tb_aula (
+	id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    titulo VARCHAR (255) NOT NULL,
+	conteudo VARCHAR (255) NOT NULL,
+    duracao TIME NOT NULL,
+    id_modulo INTEGER NOT NULL,
+CONSTRAINT fk_modulo_id FOREIGN KEY (id_modulo) 
+REFERENCES tb_modulo(id)
+);
+
+CREATE TABLE IF NOT EXISTS tb_certificado (
+	id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR (255) NOT NULL,
+	descricao VARCHAR (255) NOT NULL,
+    id_usuario INTEGER NOT NULL,
+CONSTRAINT fk_certificado_usuario_id FOREIGN KEY (id_usuario) 
+REFERENCES tb_usuario(id)
+);
+
+
+
